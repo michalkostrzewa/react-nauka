@@ -5,7 +5,9 @@ class Hotels extends React.Component{
     render() {
         return (
             <div>
-                Hotels
+                <h2>Oferty:</h2>
+                <Hotel/>
+                <Hotel/>
                 <Hotel/>
             </div>
         );

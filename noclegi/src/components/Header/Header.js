@@ -1,10 +1,11 @@
 import React from 'react';
+import Searchbar from './Searchbar/Searchbar'
 
 function Header(){
     return (
-        <div>
-            Header
-        </div>
+        <header>
+            <Searchbar/>
+        </header>
     );
 }
 
