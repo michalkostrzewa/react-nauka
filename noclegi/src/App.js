@@ -1,8 +1,11 @@
-import React, { Component, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 import Menu from './components/Menu/Menu';
 import Hotels from './components/Hotels/Hotels';
+import Searchbar from './components/UI/Searchbar/Searchbar'
+import Layout from './components/Layout/Layout'
 
 function App(){
   const hotels=[
@@ -35,18 +38,28 @@ function App(){
   const [currentHotels, setCurrentHotels] = useState([...hotels]);
 
   const searchHandler = (term) =>{
-    const serchedHotels = [...hotels].filter(x => x.name.toLocaleLowerCase().includes(term.toLocaleLowerCase()));
+    const serchedHotels = [...hotels]
+      .filter(x => x.name
+          .toLowerCase()
+          .includes(term.toLowerCase()));
     setCurrentHotels(serchedHotels);
   }
 
   return (
-    <div className="App">
-      <div className="container">
-        <Header onSearch={searchHandler}/>
-        <Menu/>
+    <Layout 
+      header={
+        <Header>
+          <Searchbar onSearch={searchHandler}/>
+        </Header>
+      }
+      menu={<Menu/>}
+      content={
         <Hotels hotels={currentHotels}/>
-      </div>
-    </div>
+      }
+      footer={
+        <Footer/>
+      }
+    />
   );
 }
 

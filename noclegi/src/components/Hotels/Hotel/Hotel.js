@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import React from 'react';
 import img from '../../../assets/images/1.jpg'
 
 const propTypes = {
