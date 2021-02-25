@@ -13,8 +13,10 @@ code {
 }
 
 header {
+  border-radius: 4px;
   height: 50px;
-  background-color: #cdcdcd;
+  background-image:url('./assets/images/3.jpg');
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
