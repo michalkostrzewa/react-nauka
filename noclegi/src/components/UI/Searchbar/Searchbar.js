@@ -1,18 +1,19 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types'
+import { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
+import ThemeContext from '../../../context/themeContext';
+
 
 const propTypes = {
   onSearch : PropTypes.func.isRequired
 }
 
 function Searchbar(props){
-  
   const [term, setTerm] = useState('');
 
+  const theme = useContext(ThemeContext);
   const search = () =>{
     props.onSearch(term);
   }
-
   const onKeyDownHandler = e =>{
     if( e.key === 'Enter'){
       search();
@@ -34,7 +35,8 @@ function Searchbar(props){
       <div>
         <button 
           onClick={search}
-          className="btn btn-secondary">szukaj</button> 
+          className={`btn btn-${theme.theme}`}>szukaj
+        </button>
       </div> 
     </div>
   );

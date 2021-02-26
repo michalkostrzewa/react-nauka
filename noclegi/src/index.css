@@ -25,3 +25,9 @@ header {
 .hotel{
   margin-bottom: 20px;
 }
+
+.theme-button{
+  color: #fff;
+  background-color: transparent;
+  border: none;
+}

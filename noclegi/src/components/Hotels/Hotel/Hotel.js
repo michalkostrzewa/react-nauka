@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
+import { useContext } from 'react';
 import img from '../../../assets/images/1.jpg'
+import ThemeContext from '../../../context/themeContext';
 
 const propTypes = {
   name: PropTypes.string.isRequired,
@@ -9,6 +11,8 @@ const propTypes = {
 }
 
 function Hotel(props){
+  const theme = useContext(ThemeContext);
+
   return (
     <div className="card hotel">
       <div className="card-body">
@@ -33,7 +37,7 @@ function Hotel(props){
           <div className="col-12">
             <p></p>
             <p>{props.description}</p>
-            <a className="btn btn-info" href="#">Wiecej</a>
+            <a className={`btn btn-${theme.theme}`} href="#">Wiecej</a>
           </div>
         </div>
       </div>

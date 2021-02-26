@@ -7,12 +7,12 @@ const propTypes = {
   
 
 function Hotels(props){
-    return (
-        <div>
-        <h2>Oferty:</h2>
-        {props.hotels.map(hotel => <Hotel key={hotel.id} {...hotel}/>)}
-        </div>
-    );
+  return (
+    <div>
+      <p></p>
+      {props.hotels.map(hotel => <Hotel  theme={props.theme} key={hotel.id} {...hotel}/>)}
+    </div>
+  );
 } 
 
 Hotels.propTypes = propTypes
