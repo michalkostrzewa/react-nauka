@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 const AuthContext = React.createContext({
-  isAuthenticated: false,
-  login: () => {},
-  logout: () => {},
+    isAuthenticated: false,
+    login: () => {},
+    logout: () => {},
 });
 
-AuthContext.displayName = 'AuthContext';
+AuthContext.displayName = "AuthContext";
 
 export default AuthContext;
