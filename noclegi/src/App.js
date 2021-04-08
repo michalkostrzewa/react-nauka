@@ -1,118 +1,126 @@
-import { useReducer, useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
 import Menu from './components/Menu/Menu';
 import Hotels from './components/Hotels/Hotels';
+import LoadingIcon from './components/UI/LoadingIcon/LoadingIcon';
 import Searchbar from './components/UI/Searchbar/Searchbar';
 import Layout from './components/Layout/Layout';
+import Footer from './components/Footer/Footer';
 import ThemeButton from './components/UI/ThemeButton/ThemeButton';
 import ThemeContext from './context/themeContext';
 import AuthContext from './context/authContext';
-import LoadingIcon from './components/UI/LoadingIcon/LoadingIcon';
+import BestHotel from './components/Hotels/BestHotel/BestHotel';
+import InsporingQuote from './components/InspiringQuote/InspiringQuote';
 
-const hotels=[
+const backendHotels = [
   {
     id: 1,
-    name: 'Pensjonat trzy korony',
-    city: 'Krościenko',
+    name: 'Pod akacjami',
+    city: 'Warszawa',
     rating: 8.3,
-    description: 'Oferujący bezpłatny dostęp do Internetu i parking położony jest w centrum krościenka, w odległości 1,3 km od głównego dworca kolejowego. Oferuje on klasycznie urządzone pokoje z telewizorem LCD z kanałami telewizji satelitarnej.',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.',
     image: ''
   },
   {
     id: 2,
-    name: 'Dom',
-    city: 'Łowicz',
-    rating: 6.2,
-    description: 'Oferujemy płatny dostęp do Internetu',
+    name: 'Dębowy',
+    city: 'Lublin',
+    rating: 8.8,
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.',
     image: ''
-  },
-  {
-    id: 3,
-    name: 'Hotel pod 3 gwiadami',
-    city: 'Szczwnica',
-    rating: 7.7,
-    description: 'Oferujemy bezpłatny dostęp do Internetu',
-    image: ''
-  },
+  }
 ];
 
 const reducer = (state, action) => {
-  switch (action.type){
+  switch (action.type) {
     case 'change-theme':
-      const theme = state.theme === 'primary' ? 'danger' :'primary';
-      return  {...state, theme: theme};
+      const theme = state.theme === 'danger' ? 'primary' : 'danger';
+      return {...state, theme };
     case 'set-hotels':
-      return  {...state, hotels: action.hotels};
+      return {...state, hotels: action.hotels };
     case 'set-loading':
       return {...state, loading: action.loading };
     case 'login':
-        return  {...state, isAuthenticated: true};
+      return {...state, isAuthenticated: true };
     case 'logout':
-        return  {...state, isAuthenticated: false};
+      return {...state, isAuthenticated: false };
     default:
-      throw new Error(action.type);
+      throw new Error('Nie ma takiej akcji: ' + action.type);
   }
- 
 }
 
-const initialState = {
+const intialState = {
   hotels: [],
   loading: true,
   isAuthenticated: false,
-  theme: 'primary'
-}
+  theme: 'danger'
+};
 
-function App(){
-  const [state, dispatch] = useReducer (reducer, initialState); 
-  const searchHandler = (term) =>{
-    const serchedHotels = [...hotels]
-      .filter(x => x.name
+function App() {
+  const [state, dispatch] = useReducer(reducer, intialState);
+
+  const searchHandler = term => {
+    const newHotels = [...backendHotels]
+          .filter(x => x.name
           .toLowerCase()
           .includes(term.toLowerCase()));
-    //setCurrentHotels(serchedHotels);
-    dispatch({type: 'set-hotels', hotels: serchedHotels})
+    dispatch({ type: 'set-hotels', hotels: newHotels });
+  }
+
+  const getBestHotel = () => {
+    if (state.hotels.length < 2) {
+      return null;
+    } else {
+      return state.hotels
+        .sort((a, b) => a.rating > b.rating ? -1 : 1)[0];
+    }
   }
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch({ type: 'set-hotels', hotels: hotels });
+      dispatch({ type: 'set-hotels', hotels: backendHotels });
       dispatch({ type: 'set-loading', loading: false });
-    }, 2000);
+    }, 1000);
   }, []);
+
 
   const header = (
     <Header>
+      <InsporingQuote />
       <Searchbar 
-        onSearch={searchHandler}
-      />
-      <ThemeButton/>
+        onSearch={term => searchHandler(term)} />
+      <ThemeButton />
     </Header>
   );
   const content = (
     state.loading 
       ? <LoadingIcon />
-      : <Hotels hotels={state.hotels} />
+      : (
+        <>
+          {getBestHotel() ? <BestHotel getHotel={getBestHotel} /> : null}
+          <Hotels hotels={state.hotels} />
+        </>
+      )
   );
-  const menu = <Menu/>
-  const fotter =<Footer/>
+  const menu = <Menu />;
+  const footer = <Footer />;
 
   return (
-    <AuthContext.Provider value={{
+    <AuthContext.Provider value={{ 
       isAuthenticated: state.isAuthenticated,
-      login: () => dispatch({ type: 'login'}),
-      logout: () => dispatch({ type: 'logout'})
-      }}>
+      login: () => dispatch({ type: 'login' }),
+      logout: () => dispatch({ type: 'logout' }),
+    }}>
       <ThemeContext.Provider value={{
-        theme: state.theme,
-        changeTheme: () => dispatch({ type: 'change-theme'})
-        }}>
-        <Layout 
+        color: state.theme,
+        changeTheme: () => dispatch({ type: 'change-theme' })
+      }}>
+        <Layout
           header={header}
           menu={menu}
-          content={ content}
-          footer={fotter}
+          content={content}
+          footer={footer}
         />
       </ThemeContext.Provider>
     </AuthContext.Provider>

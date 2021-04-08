@@ -1,20 +1,35 @@
-import { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import style from './Menu.module.css';
 import AuthContext from '../../context/authContext';
 
-function Menu(){
+function Menu() {
   const auth = useContext(AuthContext);
 
+  const login = (e) => {
+    e.preventDefault();
+    auth.login();
+  }
+  const logout = (e) => {
+    e.preventDefault();
+    auth.logout();
+  }
+
   return (
-    <div>
-      <ul className="list-group">
-        <li className="list-group-item">
+    <div className={`${style.menuContainer} breadcrumb`}>
+      <ul className={style.menu}>
+        <li className={style.menuItem}>
           <a href="#">Home</a>
         </li>
-        <li className="list-group-item">
-        {auth.isAuthenticated 
-            ? <a href="#" onClick={auth.logout}>Wyloguj</a>
-            : <a href="#" onClick={auth.login}>Zaloguj</a>}
-        </li>
+        {auth.isAuthenticated ? (
+            <li className={style.menuItem}>
+              <a href="#" onClick={logout}>Wyloguj</a>
+            </li>
+          ) : (
+            <li className={style.menuItem}>
+              <a href="#" onClick={login}>Zaloguj</a>
+            </li>
+          )
+        }
       </ul>
     </div>
   );

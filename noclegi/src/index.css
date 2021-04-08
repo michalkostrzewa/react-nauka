@@ -11,23 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-header {
-  height: 200px;
-  background-image:url('./assets/images/3.jpg');
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.hotel{
-  margin-bottom: 20px;
-}
-
-.theme-button{
-  color: #fff;
-  background-color: transparent;
-  border: none;
-}
